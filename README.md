@@ -24,7 +24,7 @@ The deployement will consist two part, the frontend will automaticallyd deploy t
     
     or `bugfix/{branch name}` for solving new bug.
     
-    or `test/{brach name} for test.
+    or `test/{brach name}` for test.
 4. Follow the `git add`, `git commit` `git push` process. Remember to commit to the branch, not into the main branch.  
 5. Create PR for when merging into the `main branch` with same naming convention above. 
 6. Write a description to help the reviewer understand whats the intention behind the new branch.
