@@ -1,0 +1,23 @@
+{
+  "name": "soundhealthweb",
+  "version": "1.0.0",
+  "description": "SoundHealth is a project based on the sound recognition work to recognize cough from patient. [Need new description]",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "dev": " cd frontend && next dev",
+    "build": "cd frontend && next build",
+    "start": "cd frontend&& next start"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nurrizkyimani/soundhealthweb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nurrizkyimani/soundhealthweb/issues"
+  },
+  "homepage": "https://github.com/nurrizkyimani/soundhealthweb#readme"
+}
