@@ -13,9 +13,14 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	useDisclosure,
-  Button,
-  Input,
-  Text
+	Button,
+	Input,
+	FormLabel,
+	Radio, RadioGroup,
+	Stack,
+	Select,
+	Checkbox,
+	Center
 } from '@chakra-ui/react';
 
 
@@ -25,6 +30,8 @@ export default function Home() {
 	const [ isUpload, setIsUpload ] = useState(false);
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	
+	 const [value, setValue] = useState("1")
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -34,6 +41,11 @@ export default function Home() {
 			</Head>
 
 			<main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
+				
+				<h1 hidden="true" className="text-6xl font-bold max-w-xl text-justify">Welcome to SoundHealth!</h1>
+
+				<h1 hidden="true" className="text-6xl font-bold max-w-xl text-justify">SoundHealth is a deep learning project based  that detects cough sound!</h1>
+
 				<h1 className="text-6xl font-bold max-w-xl text-justify">
 					{isUpload ? (
 						'Your data is now saved! You can Record it again '
@@ -54,32 +66,86 @@ export default function Home() {
 
 				<div
 					className={`px-10 py-4 text-left border rounded-full mt-10`}
-					onClick={() => setIsUpload(!isUpload)}
+					onClick={() => {
+						onOpen()
+					}}
 				>
-					<h1 className="text-2xl font-bold max-w-xl text-justify">Kirim</h1>
+					<h1 className="text-2xl font-bold max-w-xl text-justify"> { isUpload ? "Kirim" : "Rekam"}</h1>
 				</div>
 
-				<Button onClick={onOpen}>Kirim</Button>
+				
 
-				<Modal isOpen={isOpen} onClose={onClose}>
+				<Modal size="lg" isOpen={isOpen}
+					onClose={() => {
+						setIsUpload(!isUpload)
+						onClose()
+				}}>
 					<ModalOverlay />
 					<ModalContent>
 						<ModalHeader>Modal Title</ModalHeader>
 						<ModalCloseButton />
-            <ModalBody>
-                <Text mb="8px">Kondisi Anda Sekarang: </Text>
-                <Input placeholder="Sehat, Panas" />
-            </ModalBody>
+						<ModalBody>
+
+							 <FormLabel>Umur </FormLabel>
+								<Input size="lg" placeholder=" " />
+
+							<FormLabel className="pt-4" >Gender</FormLabel>
+
+							<Select size="lg" placeholder="Pilih Salah Satu">
+								<option value="option1">Laki-Laki</option>
+								<option value="option2">Perempuan</option>
+								<option value="option3">Prefer Not to Say </option>
+							</Select>
+							
+							
+							<FormLabel className="pt-4" >Symptom</FormLabel>
+							<Stack direction="column">
+								  <Checkbox size="lg" colorScheme="orange" >
+									Batuk 
+									</Checkbox>
+								 <Checkbox size="lg" colorScheme="orange" >
+									Batuk Kering
+									</Checkbox>
+								 <Checkbox size="lg" colorScheme="orange" >
+									Batuk Berdahak 
+									</Checkbox>
+								 <Checkbox size="lg" colorScheme="orange" >
+										Batuk 
+									</Checkbox>
+							</Stack>
+
+							<FormLabel className="pt-4" >Suspek Corona</FormLabel>
+
+							<RadioGroup onChange={setValue} value={value}>
+								<Stack direction="column">
+									<Radio size="lg" value="1">Ya </Radio>
+									<Radio size="lg" value="2">Tidak</Radio>
+									<Radio size="lg" value="3">Prefer Not to Say</Radio>
+								</Stack>
+							</RadioGroup>
+
+							<FormLabel className="pt-4">Kondisi Anda Sekarang</FormLabel>
+								<Input size="lg"  placeholder="Sehat, Panas" />
+						</ModalBody>
 
 						<ModalFooter>
-							<Button colorScheme="blue" mr={3} onClick={onClose}>
-								Close
-							</Button>
-							<Button variant="ghost">Secondary Action</Button>
+							<div  className="flex w-full justify-center">
+							
+
+								<div
+										className={`px-10 py-4 text-left border rounded-full `}
+									onClick={() => {
+										onClose()
+										setIsUpload(!isUpload)
+									}}
+									>
+										<h1 className="text-2xl font-bold max-w-xl text-justify">Kirim</h1>
+									</div>
+						</div>
 						</ModalFooter>
 					</ModalContent>
-        </Modal>
-        
+				</Modal>
+				
 			</main>
 		</div>
 	);
