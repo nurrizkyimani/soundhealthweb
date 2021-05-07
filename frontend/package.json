@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.0",
+    "@cleandersonlobo/react-mic": "^1.2.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "firebase": "^8.4.3",
     "framer-motion": "^4.1.11",
     "next": "latest",
     "react": "^17.0.1",
@@ -18,7 +20,7 @@
     "react-hook-form": "^7.3.4",
     "react-icons": "^4.2.0",
     "react-media-recorder": "^1.4.0",
-    "react-voice-recorder": "^2.0.9"
+    "react-voice-recorder": "^2.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.4",

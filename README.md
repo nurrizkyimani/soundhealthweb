@@ -57,3 +57,8 @@ Tasknya 2 minggu kedepan adalah:
 5. Persiapan/SOP pengambilan data
 
 # Contributors
+
+
+# Note 28 April 2021
+- ubah ke spektogram jadi ini udah bisa, 
+- ini
