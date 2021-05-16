@@ -36,24 +36,23 @@ import { motion, Frame, useAnimation } from 'framer-motion';
 function PermissionModal(props) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	useEffect(() => {
-		if (props.modalOpen == true) {
-				onOpen()
-		}
+	useEffect(
+		() => {
+			if (props.modalOpen == true) {
+				onOpen();
+			}
 
-		console.log(props.modalOpen);
-		
-	}, [props.modalOpen == true])
-	
-
+			console.log(props.modalOpen);
+		},
+		[ props.modalOpen == true ]
+	);
 
 	function handleSubmitModal(event) {
 		event.preventDefault();
-		onClose()
+		onClose();
 
-		props.setHiddenWelcome(true)
+		props.setHiddenWelcome(true);
 	}
-	
 
 	return (
 		<Modal
@@ -88,9 +87,14 @@ export default function Home() {
 
 	const { register, handleSubmit } = useForm();
 	const [ audioUrl, setAudioUrl ] = useState('');
-	const [ userData, setUserData ] = useState(null);
-
+	const [userData, setUserData] = useState(null);
+	
 	const [hiddenWelcome, setHiddenWelcome] = useState(false);
+	const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ audio: true });
+	const [ onModalOpen, setonModalOpen ] = useState(false);
+
+	const [onAboutSH, setOnAboutSH] = useState(false);
+
 
 	useEffect(() => {
 		function mediaRec() {
@@ -119,7 +123,6 @@ export default function Home() {
 		{ id: 3, label: 'batuk kering' }
 	];
 
-	const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ audio: true });
 
 	useEffect(
 		() => {
@@ -154,6 +157,7 @@ export default function Home() {
 		[ mediaBlobUrl ]
 	);
 
+	//function handling Audio On and Off; 
 	const handleAudioOnOff = () => {
 		//if the user not yet click
 		if (isAudioOn == false) {
@@ -182,6 +186,7 @@ export default function Home() {
 		}
 	};
 
+	//On Submit 
 	const onSubmit = async (data) => {
 		const condition = data.condition.split(',');
 		console.log({ ...data, condition });
@@ -210,11 +215,39 @@ export default function Home() {
 			});
 	};
 
+	
 
-	const [onModalOpen, setonModalOpen] = useState(false)
+	let welcomeControl = useAnimation()
+	let aboutControl = useAnimation()
+	let onceControl = useAnimation()
 
-	// let anim = useAnimation()
 
+	const sequence = () => {
+		welcomeControl.start({
+			scale: 1.5,
+			transition: {
+				duration: 1
+			}
+		})
+			.then(() => {
+				welcomeControl.start({ visibility: 'hidden' })
+			})
+			.then(() => {
+				aboutControl.start({ visibility: 'visible', scale: 1.2 })
+			})
+			.then(() => {
+				aboutControl.start({ visibility: 'hidden' })
+			})
+			.then(() => {
+				onceControl.start({ visibility: 'visible' })
+			})
+
+	}
+
+		useEffect(() => {
+			
+			sequence()
+		}, [])
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -225,31 +258,43 @@ export default function Home() {
 
 			<main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
 				<motion.div
-					animate={{
-						scale: 1.5
-					}}
-					transition={{ duration: 1 }}
-					onAnimationComplete={() => setonModalOpen(!onModalOpen)}
+					animate={welcomeControl}
 				>
 					<h1 hidden={hiddenWelcome} className="text-4xl font-bold max-w-xl text-justify">
 						Welcome to SoundHealth!
 					</h1>
 				</motion.div>
 
-
-				<PermissionModal modalOpen={onModalOpen} setHiddenWelcome={setHiddenWelcome}/>
-
-				<h1 hidden={true} className="text-6xl font-bold max-w-xl text-justify">
+				<motion.div
+					animate={aboutControl}
+					onAnimationComplete={() => setonModalOpen(!onModalOpen)}
+				>
+				
+				<h1 hidden={onAboutSH} className="text-6xl font-bold max-w-xl text-justify">
 					SoundHealth is a deep learning project based that detects cough sound!
 				</h1>
 
-				<h1 className="text-6xl font-bold max-w-xl text-justify">
+				</motion.div>
+
+				<PermissionModal modalOpen={onModalOpen} setHiddenWelcome={setHiddenWelcome} />
+
+			
+
+				<motion.div
+					initial='hidden'
+					animate={onceControl}
+				>
+
+					<h1 className="text-6xl font-bold max-w-xl text-justify">
 					{isUpload ? (
 						'Your data is now saved! You can Record it again '
 					) : (
 						'Once you are ready, press and hold the button below until you’re done.'
 					)}
 				</h1>
+
+				</motion.div>
+				
 
 				<div>
 					<p>{status}</p>
@@ -276,10 +321,8 @@ export default function Home() {
 					}}
 				>
 					<ModalOverlay />
-ss
 					<ModalContent>
-						<form
-							onSubmit={handleSubmit(onSubmit)}>
+						<form onSubmit={handleSubmit(onSubmit)}>
 							<ModalHeader>Informasi Subjek </ModalHeader>
 							<ModalCloseButton />
 							<ModalBody>
